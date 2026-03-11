@@ -2,6 +2,9 @@ from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import redis
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 cors = CORS()
 limiter = Limiter(
@@ -10,4 +13,8 @@ limiter = Limiter(
     # Need to add redis URI
 )
 
-redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+redis_client = redis.Redis(
+    host=os.environ('REDIS_URL'), 
+    port=os.environ('REDIS_PORT'), 
+    db=0, 
+    decode_responses=True)
