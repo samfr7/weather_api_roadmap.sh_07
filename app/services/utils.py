@@ -1,13 +1,19 @@
 from dotenv import load_dotenv
 from groq import Groq
 load_dotenv()
+import logging
+
+logger = logging.getLogger(__name__)
+
+# its recommended that we define these variables outside as its defines once the program runs and it available, if its inside it needs to define again and again
+client = Groq()
 
 def get_exact_location_name(location: str) -> str:
     '''
     This function takes the location name, if there are some issues with this name, then it will correct it and return the location name with the proper name
     '''
-
-    client = Groq()
+    logger.debug(f"Attempting to fetch the right name for location: {location}!")
+    
     try:
         location_retrever = client.chat.completions.create(
             messages=[
@@ -59,10 +65,11 @@ def get_exact_location_name(location: str) -> str:
             model="llama-3.3-70b-versatile",
             temperature=0.0
         )
-
-        return location_retrever.choices[0].message.content.strip()
+        location = location_retrever.choices[0].message.content.strip()
+        logger.debug(f"The right name for the location is {location}")
+        return location
     except Exception as e:
-        print(f"LLM Normalization failed : {e}")
+        logger.warning(f"Attempt failed to fetch data for location: {location}! Returning the same location")
         return location.strip().lower()
 
 
