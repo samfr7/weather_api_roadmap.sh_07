@@ -14,7 +14,7 @@ limiter = Limiter(
 )
 
 redis_client = redis.Redis(
-    host=os.environ('REDIS_URL'), 
-    port=os.environ('REDIS_PORT'), 
+    host=os.getenv('REDIS_URL'), 
+    port=os.getenv('REDIS_PORT'), 
     db=0, 
     decode_responses=True)
