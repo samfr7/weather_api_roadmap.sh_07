@@ -27,3 +27,6 @@ jobs:
         python -m pytest
       env:
         GROQ_API_KEY: "dummy_testing_key_123"
+        REDIS_URL: "redis://fake-database-url:6379/0" 
+        REDIS_PORT: 6379
+        FLASK_ENV: "testing"
